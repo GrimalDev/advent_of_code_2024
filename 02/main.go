@@ -4,9 +4,11 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"time"
 )
 
 func main() {
+	startTime := time.Now()
 	fmt.Print("Reading input file...")
 
 	f, err := os.Open("01/input.txt")
@@ -46,4 +48,7 @@ func main() {
 	}
 
 	fmt.Println(fmt.Sprint("Similarity score: ", similarityScore))
+	endTime := time.Now()
+
+	fmt.Println(fmt.Sprint("Program executed in ", endTime.Sub(startTime)))
 }
