@@ -18,17 +18,29 @@ func isSafe(reportRAW []string) bool {
 	}
 
 	var direction int
+	secondChance := false
 	for i := 1; i < len(report); i++ {
 		newDirection := report[i] - report[i-1]
 		delta := math.Abs(float64(newDirection))
+
 		if delta > 3 || delta < 1 {
-			return false
+			if secondChance == true {
+				return false
+			}
+			secondChance = true
+			continue
 		}
+
 		if direction*newDirection < 0 {
-			return false
+			if secondChance == true {
+				return false
+			}
+			secondChance = true
+			continue
 		}
 		direction = newDirection
 	}
+
 	return true
 }
 
