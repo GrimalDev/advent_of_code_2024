@@ -11,7 +11,7 @@ import (
 func main() {
 	fmt.Print("Reading input file...")
 
-	f, err := os.Open("input.txt")
+	f, err := os.Open("01/input.txt")
 	if err != nil {
 		fmt.Println("Error Opening File")
 		os.Exit(1)
