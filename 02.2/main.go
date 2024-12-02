@@ -10,6 +10,14 @@ import (
 	"time"
 )
 
+func reverse(values []string) []string {
+	var rev []string
+	for _, n := range values {
+		rev = append([]string{n}, rev...)
+	}
+	return rev
+}
+
 func isSafe(reportRAW []string) bool {
 	var report []int
 	for _, levelRAW := range reportRAW {
@@ -19,12 +27,19 @@ func isSafe(reportRAW []string) bool {
 
 	var direction int
 	secondChance := false
+	tried := false
 	for i := 1; i < len(report); i++ {
-		newDirection := report[i] - report[i-1]
+		var newDirection int
+		if secondChance && !tried {
+			newDirection = report[i] - report[i-2]
+			tried = true
+		} else {
+			newDirection = report[i] - report[i-1]
+		}
 		delta := math.Abs(float64(newDirection))
 
 		if delta > 3 || delta < 1 {
-			if secondChance == true {
+			if secondChance {
 				return false
 			}
 			secondChance = true
@@ -32,7 +47,7 @@ func isSafe(reportRAW []string) bool {
 		}
 
 		if direction*newDirection < 0 {
-			if secondChance == true {
+			if secondChance {
 				return false
 			}
 			secondChance = true
@@ -64,6 +79,8 @@ func main() {
 	for scanner.Scan() {
 		report := strings.Split(scanner.Text(), " ")
 		if isSafe(report) {
+			safeReports++
+		} else if isSafe(reverse(report)) {
 			safeReports++
 		}
 	}
