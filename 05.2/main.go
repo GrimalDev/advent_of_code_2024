@@ -9,10 +9,23 @@ import (
 	"time"
 )
 
+func moveItem(slice []string, from int, to int) []string {
+	if to < 0 {
+		to = 0
+	}
+
+	item := slice[from]
+	slice = append(slice[:from], slice[from+1:]...)
+
+	slice = append(slice[:to], append([]string{item}, slice[to:]...)...)
+
+	return slice
+}
+
 func main() {
 	startTime := time.Now()
 
-	input, err := os.Open("05.1/input.txt")
+	input, err := os.Open("05.2/input.txt")
 	if err != nil {
 		fmt.Println("Error Opening File")
 		os.Exit(1)
@@ -41,12 +54,14 @@ func main() {
 		for i := 0; i < len(update); i++ {
 			for j := i + 1; j < len(update); j++ {
 				if _, ok := rules[update[j]+"|"+update[i]]; ok {
+					moveItem(update, j, i)
+					i = 0
 					safeUpdate = false
 				}
 			}
 		}
 
-		if safeUpdate {
+		if !safeUpdate {
 			num, _ := strconv.Atoi(update[len(update)/2])
 			middleSum += num
 		}
