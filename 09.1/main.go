@@ -55,8 +55,6 @@ func main() {
 		}
 	}
 
-	fmt.Println(disk)
-
 	fmt.Println("Result is:", flag)
 
 	fmt.Println(fmt.Sprint("Script took: ", time.Now().Sub(startTime)))
